@@ -12,7 +12,6 @@ import socket as socket
 import json
 from datetime import datetime
 import pytz
-import sensData
 import urlLinks
 import urlMedia
 
