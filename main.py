@@ -304,7 +304,7 @@ def keyWords(update, context):
 
 
 def main():
-    updater = Updater(token= os.environ['pyTGbotToken'])
+    updater = Updater(token= os.environ['TGTOKEN'])
     
     
     dp = updater.dispatcher
