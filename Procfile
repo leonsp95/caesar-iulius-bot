@@ -1,1 +1,1 @@
-worker: python caesarbot.py
+worker: python main.py
