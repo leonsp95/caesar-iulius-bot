@@ -290,8 +290,7 @@ def keyWords(update, context):
         return
 
 def main():
-    updater = Updater(token= '1834549183:AAH6iOHTSlc-VLfVI9xDFpWu7S2yZZ_fGMQ')
-    #updater = Updater(token= os.environ['TGTOKEN'])
+    updater = Updater(token= os.environ['TGTOKEN'])
     
     
     dp = updater.dispatcher
