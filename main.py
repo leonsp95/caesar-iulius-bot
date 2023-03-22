@@ -30,7 +30,7 @@ def welcome(update: Update, context: CallbackContext):
     #START
 def start(update: Update, context: CallbackContext):
     primNome = update.message.from_user.first_name
-    context.bot.send_message(chat_id= update.message.chat_id, text="Olá, " + primNome + "!\nBem-vindo ao <i>CæsarBot 0.3 «Umbria»</i>! \U0001F916" + "\n----------------------------------------------------\nLISTA DE COMANDOS:\n\U0001F4CB <code>?menu</code> » menu e meus comandos\n\U0001F3A5 <code>?cine</code> » estreias do cinema\n\U0001F3B0 <code>?loto</code> » resultados da loteria\n\U0001F3AE <code>?steam</code> » ofertas do steam\n\u270B\uFE0F <code>?jokenpo</code> » pedra, papel, tesoura\n\U0001F468\u200D\U0001F3EB <code>?udemy</code> » cursos free ou com desconto de 100% na udemy\n\U0001F517 <code>?links</code> » links de compiladores online, bancos de imgs, vídeos, vetores etc.\n\U0001f4d1 <code>?def</code> » retorna o significado de um vocábulo (ex.: <code>?def planta</code>\n\U0001f517 <code>?shrt</code> » encurta links (ex.: <code>?shrt www.google.com</code>\n\U0001f9f2 <code>?mgnt</code> » encurta links magnéticos (ex.: <code>?shrt magnet:?xt=exemplo</code>\n\U0001F5D2 <code>?clog</code> » registro de versões e respectivas alterações/correções de erros/melhorias\n\U0001f50d <code>?info</code> » sobre o bot e seu criador\n----------------------------------------------------\n", parse_mode ='HTML')
+    context.bot.send_message(chat_id= update.message.chat_id, text="Olá, " + primNome + "!\nBem-vindo ao <i>CæsarBot 0.3.1 «Umbria»</i>! \U0001F916" + "\n----------------------------------------------------\nLISTA DE COMANDOS:\n\U0001F4CB <code>?menu</code> » menu e meus comandos\n\U0001F3A5 <code>?cine</code> » estreias do cinema\n\U0001F3B0 <code>?loto</code> » resultados da loteria\n\U0001F3AE <code>?steam</code> » ofertas do steam\n\u270B\uFE0F <code>?jokenpo</code> » pedra, papel, tesoura\n\U0001F468\u200D\U0001F3EB <code>?udemy</code> » cursos free ou com desconto de 100% na udemy\n\U0001F517 <code>?links</code> » links de compiladores online, bancos de imgs, vídeos, vetores etc.\n\U0001f4d1 <code>?def</code> » retorna o significado de um vocábulo (ex.: <code>?def planta</code>\n\U0001f517 <code>?shrt</code> » encurta links (ex.: <code>?shrt www.google.com</code>)\n\U0001F5D2 <code>?clog</code> » registro de versões e respectivas alterações/correções de erros/melhorias\n\U0001f50d <code>?info</code> » sobre o bot e seu criador\n----------------------------------------------------\n", parse_mode ='HTML')
     #MENU
 def menu(update: Update, context: CallbackContext):
     primNome = update.message.from_user.first_name
@@ -45,7 +45,7 @@ def myInfo(update, context):
 #JOKENPO
 def jokenpo(update: Update, context: CallbackContext):
     update.message.reply_text('Vamos jogar <b>Pedra ✊ Papel ✋ Tesoura ✌️</b>?\n<b>REGRAS:</b>\nVocê começa com <b>5</b> vidas e perde uma cada vez que eu ganhar. Se você acertar, ganha <b>1</b> ponto. O jogo acaba quando você não tiver mais vidas restantes.\n<b>COMANDOS:</b>\n<code>pedra</code> / <code>papel</code> / <code>tesoura</code> » jogar\n<code>status</code> » ver pontuação, vidas e empates\n<code>sair</code> » terminar o jogo a qualquer hora\nEscolha uma opção:', parse_mode ='HTML')
-    return THEGAME  
+    return THEGAME
 #JOGO JOKENPO
 def thegame(update,context):
     msgUser = update.message.text.lower()
@@ -101,14 +101,14 @@ def steamStore(update: Update, context: CallbackContext) -> None:
             random.shuffle(lista)
             varVezes = 0
             for i in lista:
-                if varVezes < 5:           
+                if varVezes < 5:
                     gamePic = i['large_capsule_image']
                     gameName = i['name']
-                    if i['original_price'] is None:                        
-                        gamePriceOrg = "Gratuito" 
+                    if i['original_price'] is None:
+                        gamePriceOrg = "Gratuito"
                     else:
                         gamePriceOrg = (f"R${(i['original_price']/100):.2f}").replace('.',',')
-                    if i['discounted'] == True:                           
+                    if i['discounted'] == True:
                         gamePriceFin = (f"R${(i['final_price']/100):.2f}").replace('.',',')
                         gameDiscount =f"{i['discount_percent']}%"
                     else:
@@ -123,10 +123,10 @@ def steamStore(update: Update, context: CallbackContext) -> None:
                     elif (i['type'] == 2):  tipo = "bundle/"
                     gameURL =f"{urlLinks.steamLink}{tipo}{i['id']}"
                     #gameExpDate = datetime.fromtimestamp(i['discount_expiration'],pytz.timezone("America/Sao_Paulo")).strftime('%d/%m/%y | %H:%M')
-                    gamePlatf = []                
+                    gamePlatf = []
                     if (i['windows_available']):    gamePlatf.append('🪟')
                     if (i['mac_available']):    gamePlatf.append('🍎')
-                    if (i['linux_available']):  gamePlatf.append('🐧')        
+                    if (i['linux_available']):  gamePlatf.append('🐧')
                     gamePlatfFinal = " | ".join(gamePlatf)
                     context.bot.send_photo(chat_id= update.message.chat_id, photo= gamePic,
                     caption=(f'''<b>{gameName}</b>
@@ -151,7 +151,7 @@ def steamStore(update: Update, context: CallbackContext) -> None:
             update.message.reply_text(f'Esse parâmetro não existe! {nonParam}',parse_mode="HTML")
     except IndexError:
         update.message.reply_text(f'Por favor, envie o comando com um parâmetro! {nonParam}', parse_mode="HTML")
-    
+
 # ------------------------------------------------------------
 
 #ESTREIAS DO CINEMA
@@ -195,7 +195,7 @@ def udemy(update, context):
 def listasites(update, context):
     try:
         df = pd.read_csv("lista_links.csv")
-        comp1 = pd.DataFrame(df, columns= [context.args[0]])    
+        comp1 = pd.DataFrame(df, columns= [context.args[0]])
         comp1 = str(comp1.dropna())
         compFinal = re.sub(r'\d+\s*','', comp1)
         print(comp1)
@@ -204,7 +204,7 @@ def listasites(update, context):
         context.bot.send_message(chat_id= update.message.chat_id, text = 'A operação não pôde ser realizada. Adicione um parâmetro ao comando:\n<b>?links parâmetro</b>\nOnde parâmetro pode ser:\ncompiladores\nimagens\nvetores\nvideos\nicones\nfontes', parse_mode='HTML')
 
 def vocab(update: Update, context: CallbackContext) -> None:
-    try:        
+    try:
         verbete = requests.get(urlLinks.defUrl + context.args[0])
         respostas = json.loads(verbete.content)
         cont = 1
@@ -216,7 +216,7 @@ def vocab(update: Update, context: CallbackContext) -> None:
             print(txtFinal)
             #context.bot.send_message(chat_id= update.message.chat_id, text=('<b>' + context.args[0] + '</b>\n<i>' + item['class'] + '</i>\n\n' + conjMeanings), parse_mode="HTML")
         context.bot.send_message(chat_id= update.message.chat_id, text=(f'<b>{context.args[0]}</b>\n{txtFinal}'), parse_mode="HTML")
-        return        
+        return
     except:
         context.bot.send_message(chat_id= update.message.chat_id, text=(f"Não foi possível encontrar <b>{context.args[0]}</b>. Tente novamente."), parse_mode="HTML")
         return
@@ -233,18 +233,6 @@ def shrt(update: Update, context: CallbackContext) -> None:
         return
     except:
         context.bot.send_message(chat_id= update.message.chat_id, text=("Não foi possível encurtar este link. Tente novamente mais tarde."))
-        return
-
-def mgnt(update: Update, context: CallbackContext) -> None:
-    try:
-        linkUser = {'m': f'{context.args[0]}'}
-        requisicao = requests.get(urlLinks.shortMagnet, params=linkUser)
-        linksFinais = json.loads(requisicao.content)
-        linkCurto = linksFinais['shorturl']
-        context.bot.send_message(chat_id= update.message.chat_id, text=("Link curto: <b>" + linkCurto + "</b>"), parse_mode="HTML", disable_web_page_preview=True)
-        return
-    except:
-        context.bot.send_message(chat_id= update.message.chat_id, text=("Não foi possível encurtar este magnet."))
         return
 
 def keyWords(update, context):
@@ -291,11 +279,11 @@ def keyWords(update, context):
 
 def main():
     updater = Updater(token= os.environ['TGTOKEN'])
-    
-    
+
+
     dp = updater.dispatcher
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-    
+
     dp.add_handler(MessageHandler(Filters.status_update.new_chat_members, welcome))
 
     convHandler = ConversationHandler( #comandos do jogo
@@ -316,7 +304,6 @@ def main():
     dp.add_handler(PrefixHandler('?', 'links', listasites))
     dp.add_handler(PrefixHandler('?', 'def', vocab))
     dp.add_handler(PrefixHandler('?', 'shrt', shrt))
-    dp.add_handler(PrefixHandler('?', 'mgnt', mgnt))
     dp.add_handler(MessageHandler(Filters.text, keyWords))
     updater.start_polling()
     updater.idle()
