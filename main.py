@@ -1,7 +1,6 @@
-from telegram import Update, ParseMode, ReplyKeyboardMarkup, ReplyKeyboardRemove, ChatAction, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackContext, PrefixHandler)
-from telegram.ext.filters import Filters, MessageFilter
-from telegram.utils.request import Request
+from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, ChatAction, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import (Application, CommandHandler, MessageHandler, filters, ConversationHandler, CallbackContext, PrefixHandler)
+from telegram.request import BaseRequest
 import random, logging, datetime, requests, pytz, os, scrapy, platform
 from urllib.request import urlopen, Request
 from urllib.error import HTTPError
@@ -229,11 +228,15 @@ def shrt(update: Update, context: CallbackContext) -> None:
         linkCurto = linksFinais['is.gd']
         print(type(linkCurto))
         print(linkCurto)
-        context.bot.send_message(chat_id= update.message.chat_id, text=("Link curto: <b>" + linkCurto + "</b>"), parse_mode="HTML", disable_web_page_preview=True)
+        update.message.reply_text("Link curto: <b>" + linkCurto + "</b>", parse_mode="HTML", disable_web_page_preview=True, reply_to_message_id= update.message.message_id)
+        #context.bot.send_message(chat_id= update.message.chat_id, text=("Link curto: <b>" + linkCurto + "</b>"), parse_mode="HTML", disable_web_page_preview=True)
         return
     except:
         context.bot.send_message(chat_id= update.message.chat_id, text=("Não foi possível encurtar este link. Tente novamente mais tarde."))
         return
+
+def teste(update: Update, context: CallbackContext):
+    update.message.reply_text()
 
 def keyWords(update, context):
     listaPal = ["césar", "cesar", "julio", "júlio", "julius", "kaiser"]
@@ -278,35 +281,32 @@ def keyWords(update, context):
         return
 
 def main():
-    updater = Updater(token= os.environ['TGTOKEN'])
+    app = Application.builder().token(os.environ['TGTOKEN']).build()
 
-
-    dp = updater.dispatcher
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-    dp.add_handler(MessageHandler(Filters.status_update.new_chat_members, welcome))
+    app.add_handler(MessageHandler(filters.status_update.new_chat_members, welcome))
 
     convHandler = ConversationHandler( #comandos do jogo
         entry_points=[PrefixHandler('?', 'jokenpo', jokenpo)],
         fallbacks=[],
         states = {
-            THEGAME: [MessageHandler(Filters.text, thegame)]
+            THEGAME: [MessageHandler(filters.TEXT, thegame)]
         })
-    dp.add_handler(convHandler)
-    dp.add_handler(PrefixHandler('?', 'menu', menu))
-    dp.add_handler(CommandHandler('start', start))
-    dp.add_handler(PrefixHandler('?', 'loto', loteria))
-    dp.add_handler(PrefixHandler('?', 'steam', steamStore))
-    dp.add_handler(PrefixHandler('?', 'udemy', udemy))
-    dp.add_handler(PrefixHandler('?', 'cine', cineestreia))
-    dp.add_handler(PrefixHandler('?', 'clog', changelog))
-    dp.add_handler(PrefixHandler('?', 'info', myInfo))
-    dp.add_handler(PrefixHandler('?', 'links', listasites))
-    dp.add_handler(PrefixHandler('?', 'def', vocab))
-    dp.add_handler(PrefixHandler('?', 'shrt', shrt))
-    dp.add_handler(MessageHandler(Filters.text, keyWords))
-    updater.start_polling()
-    updater.idle()
+    app.add_handler(convHandler)
+    app.add_handler(PrefixHandler('?', 'menu', menu))
+    app.add_handler(CommandHandler('start', start))
+    app.add_handler(PrefixHandler('?', 'loto', loteria))
+    app.add_handler(PrefixHandler('?', 'steam', steamStore))
+    app.add_handler(PrefixHandler('?', 'udemy', udemy))
+    app.add_handler(PrefixHandler('?', 'cine', cineestreia))
+    app.add_handler(PrefixHandler('?', 'clog', changelog))
+    app.add_handler(PrefixHandler('?', 'info', myInfo))
+    app.add_handler(PrefixHandler('?', 'links', listasites))
+    app.add_handler(PrefixHandler('?', 'def', vocab))
+    app.add_handler(PrefixHandler('?', 'shrt', shrt))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, keyWords))
+    app.run_polling()
 
 if __name__ == "__main__":
     main()
