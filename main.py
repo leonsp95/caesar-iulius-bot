@@ -1,4 +1,5 @@
-from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, ChatAction, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.constants import ChatAction
 from telegram.ext import (Application, CommandHandler, MessageHandler, filters, ConversationHandler, CallbackContext, PrefixHandler)
 from telegram.request import BaseRequest
 import random, logging, datetime, requests, pytz, os, scrapy, platform
