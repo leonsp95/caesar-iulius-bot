@@ -286,7 +286,7 @@ def main():
 
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-    app.add_handler(MessageHandler(filters.StatusUpdate.new_chat_members, welcome))
+    app.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, welcome))
 
     convHandler = ConversationHandler( #comandos do jogo
         entry_points=[PrefixHandler('?', 'jokenpo', jokenpo)],
